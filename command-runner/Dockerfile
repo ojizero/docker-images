@@ -7,11 +7,11 @@ FROM ${RUNNER}:${TAG}
 
 ENV STAGE 'development'
 
+ENV APP_DIR   '/opt/app'
 ENV CRON_SPEC '* * * * *'
 ENV CRON_EXEC ''
 ENV EXEC_OPTS ''
-ENV LOGS_PATH '/opt/app/run.log'
-ENV APP_DIR   '/opt/app'
+ENV LOGS_PATH "${APP_DIR}/run.log"
 
 WORKDIR /opt/scripts
 
