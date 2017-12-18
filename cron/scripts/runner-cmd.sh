@@ -1,9 +1,15 @@
 #!/bin/sh
 set -e
 
+RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NOCOLOR='\033[0m'
+
+if [ -z "${CRON_EXEC}"]; then
+    echo "${RED}No executable provided."
+    exit 1
+fi
 
 if [ $(echo "$STAGE" | egrep 'prod(uction)?') ]; then
 
