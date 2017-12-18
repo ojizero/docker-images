@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-ENV_FILE='/etc/environment'
 CRON_FILE='/var/spool/cron/crontabs/root'
 
 # Specify binary of cron
@@ -22,15 +21,13 @@ else
 
 fi
 
-# Create environment file
-env > $ENV_FILE
-# Inject cron spec, before running
-# command source the environment
-echo "${CRON_SPEC} . ${ENV_FILE} && ${CRON_EXEC} ${EXEC_OPTS} >> ${LOGS_PATH}" > $CRON_FILE
+# Inject cron spec and command is
+# provided as ARGs to the script
+echo "${CRON_SPEC} ${@}" > $CRON_FILE
 echo '' >> $CRON_FILE
 
 # Add cron file
-crontab ${CRON_FILE}
+crontab "${CRON_FILE}"
 
 # Cron options
 # : -f run in foreground
