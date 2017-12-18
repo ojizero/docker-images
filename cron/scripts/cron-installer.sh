@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+RED='\033[0;31m'
+
 if [ $(which apt-get) ]; then
     PACKAGE_MANAGER='apt-get'
 
@@ -22,7 +24,7 @@ elif [ $(which apk) ]; then
 
     PACKAGES='dcron'
 else
-    echo 'failed to detect package manager' >&2
+    echo "${RED}Failed to detect package manager" >&2
     exit 1
 fi
 
