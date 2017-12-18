@@ -18,8 +18,4 @@ ADD scripts .
 RUN chmod +x *
 RUN ./cron-installer.sh
 
-VOLUME . /opt/app
-
-WORKDIR /opt/app
-
 CMD [ "/opt/scripts/runner-cmd.sh" ]

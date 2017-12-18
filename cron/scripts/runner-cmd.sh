@@ -2,7 +2,9 @@
 set -e
 
 if [ $(echo "$STAGE" | egrep 'prod(uction)?') ]; then
+    echo "Production stage running scheduler"
     /opt/scripts/production-run.sh
 else
-    ${CRON_EXEC} ${EXEC_OPTS} >> "${LOGS_PATH}"
+    echo "Non production stage '${STAGE}' running once"
+    ${CRON_EXEC} ${EXEC_OPTS} | tee -a "${LOGS_PATH}"
 fi

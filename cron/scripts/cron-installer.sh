@@ -24,7 +24,7 @@ elif [ $(which apk) ]; then
 else
     echo 'failed to detect package manager' >&2
     exit 1
-fi;
+fi
 
 ${PACKAGE_MANAGER} ${UPDATE_COMMAND} ${UPDATE_OPTS}
 ${PACKAGE_MANAGER} ${INSTALL_COMMAND} ${INSTALL_OPTS} ${PACKAGES}

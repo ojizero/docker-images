@@ -13,7 +13,7 @@ if [ $(which cron) ]; then
 elif [ $(which crond) ];
     CRON_BIN="$(which crond)"
 else
-    echo 'neither cron nor crond is installed' >&2
+    echo 'neither `cron` nor `crond` is installed' >&2
     exit 1
 fi
 
