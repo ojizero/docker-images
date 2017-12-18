@@ -5,6 +5,8 @@ ARG TAG=${VERSION}-${FLAVOUR}
 
 FROM ${RUNNER}:${TAG}
 
+LABEL maintainer='Ameer A. <ameer.a@yamsafer.me>'
+
 ENV STAGE 'development'
 
 ENV APP_DIR   '/opt/app'
