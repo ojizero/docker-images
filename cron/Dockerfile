@@ -1,6 +1,6 @@
 ARG RUNNER=node
 ARG VERSION=9
-ARG FLAVOUR=stretch
+ARG FLAVOUR=alpine
 ARG TAG=${VERSION}-${FLAVOUR}
 
 FROM ${RUNNER}:${TAG}
@@ -8,7 +8,7 @@ FROM ${RUNNER}:${TAG}
 ENV STAGE 'development'
 
 ENV CRON_SPEC '* * * * *'
-ENV CRON_EXEC
+ENV CRON_EXEC ''
 ENV EXEC_OPTS ''
 ENV LOGS_PATH '/opt/app/run.log'
 
@@ -16,7 +16,7 @@ WORKDIR /opt/scripts
 
 ADD scripts .
 RUN chmod +x *
-RUN cron-installer.sh
+RUN ./cron-installer.sh
 
 VOLUME . /opt/app
 
