@@ -13,7 +13,9 @@ ENV APP_DIR   '/opt/app'
 ENV CRON_SPEC '* * * * *'
 ENV CRON_EXEC ''
 ENV EXEC_OPTS ''
-ENV LOGS_PATH "${APP_DIR}/run.log"
+
+ENV ENV_FILE  '/etc/environment'
+ENV WRITE_ENV 'true'
 
 WORKDIR /opt/scripts
 
