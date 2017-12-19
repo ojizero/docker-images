@@ -7,7 +7,8 @@ FROM ${RUNNER}:${TAG}
 
 LABEL maintainer='Ameer A. <ameer.a@yamsafer.me>'
 
-ENV STAGE 'development'
+ENV STAGE    'development'
+ENV NODE_ENV ${STAGE}
 
 ENV APP_DIR   '/opt/app'
 ENV CRON_SPEC '* * * * *'
