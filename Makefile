@@ -1,7 +1,6 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-RELEASE ?= $(RUNNER)-runner:$(TAG)
-IMAGES  ?= $(wildcard */)
+IMAGES ?= $(wildcard */)
 
 
 build:
