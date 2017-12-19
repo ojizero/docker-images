@@ -17,6 +17,8 @@ ENV EXEC_OPTS ''
 ENV ENV_FILE  '/etc/environment'
 ENV WRITE_ENV 'true'
 
+ENV TERM 'xterm-256color'
+
 WORKDIR /opt/scripts
 
 ADD scripts .

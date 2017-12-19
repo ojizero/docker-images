@@ -2,8 +2,9 @@
 set -e
 
 CRON_FILE='/var/spool/cron/crontabs/root'
-REDIRECT_STDOUT="> /proc/$(cat /var/run/crond.pid)/fd/1"
-REDIRECT_STDERR="2> /proc/$(cat /var/run/crond.pid)/fd/2"
+
+REDIRECT_STDOUT="> /proc/${$}/fd/1"
+REDIRECT_STDERR="2> /proc/${$}/fd/2"
 
 # Specify binary of cron
 if [ $(which cron) ]; then
