@@ -5,10 +5,10 @@ IMAGES ?= $(wildcard */)
 
 build:
 	for image in $(IMAGES); do \
-		$(MAKE) -f "$${image}Makefile" build; \
+		$(MAKE) -f "$${image}/Makefile" build; \
 	done
 
 push:
 	for image in $(IMAGES); do \
-		$(MAKE) -f "$${image}Makefile" push; \
+		$(MAKE) -f "$${image}/Makefile" push; \
 	done
