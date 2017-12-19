@@ -16,5 +16,3 @@ Manages running our Node based CRON jobs.
 `CRON_SPEC`: The schedule for the CRON, using the standard CRON notation. Default value `* * * * *`.
 `CRON_EXEC`: The command to be executed on the schedule, it has to be provided otherwise an error is thrown when running the image.
 `EXEC_OPTS`: Any addition options the command needs. Default value is empty.
-`LOGS_PATH`: The path, inside the container to log the output to. Default is `${APP_DIR}/run.log`.
-
