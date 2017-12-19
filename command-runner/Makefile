@@ -10,7 +10,7 @@ build:
 		--tag "$(RUNNER)-runner:$(TAG)" \
 		--build-arg "RUNNER=$(RUNNER)" \
 		--build-arg "TAG=$(TAG)" \
-		${ROOT_DIR}; \
+		$(ROOT_DIR);
 
 push:
 	echo 'not implemented'
