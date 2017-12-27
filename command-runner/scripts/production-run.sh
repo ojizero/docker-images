@@ -26,7 +26,7 @@ fi
 
 # Inject cron spec and command is
 # provided as ARGs to the script
-echo "${CRON_SPEC} ${@} ${REDIRECT_STDOUT} ${REDIRECT_STDERR}" > $CRON_FILE
+echo "${CRON_SPEC} { ${@} } ${REDIRECT_STDOUT} ${REDIRECT_STDERR}" > $CRON_FILE
 echo '' >> $CRON_FILE
 
 # Add cron file
