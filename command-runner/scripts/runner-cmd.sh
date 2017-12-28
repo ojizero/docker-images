@@ -20,13 +20,17 @@ fi
 if [ "${WRITE_ENV}" != 'false' ]; then
     # Create environment file it also encapsulates values
     # with singel quotes to fix sourcing the file
-    env | awk -F'=' "{ print \$1\"=\"\"'\"\$2\"'\" }" | tee $ENV_FILE > /dev/null
+    env | awk -F'=' "{ print \$1\"='\"\$2\"'\" }" | tee $ENV_FILE > /dev/null
 fi
 
 # Create main command
 MAIN_COMMAND=". ${ENV_FILE} && ${CRON_EXEC} ${EXEC_OPTS}"
 
 if [ $(echo "$STAGE" | egrep -i 'prod(uction)?') ]; then
+
+    # Capture user signals 1 & 2 use them
+    # to fire the command directly
+    trap "${MAIN_COMMAND};" SIGUSR1 SIGUSR2
 
     echo ${ALP_CLR} "${GREEN}Production stage, running scheduler${NOCOLOR}"
     echo
