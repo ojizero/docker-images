@@ -34,3 +34,7 @@ publish:
 			$(MAKE) BASE_TAG=$${version} IMAGE_TAG=$${default_tag} push ;\
 		fi ;\
 	done
+
+publish-latest:
+	$(MAKE) BASE_TAG=$(BASE_TAG) IMAGE_TAG='latest' build ;\
+	$(MAKE) BASE_TAG=$(BASE_TAG) IMAGE_TAG='latest' push
