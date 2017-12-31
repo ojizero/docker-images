@@ -15,8 +15,7 @@ ENV CRON_SPEC '* * * * *'
 ENV CRON_EXEC ''
 ENV EXEC_OPTS ''
 
-ENV ENV_FILE  '/etc/environment'
-ENV WRITE_ENV 'true'
+ENV ENV_FILE  '${APP_DIR}/.env'
 
 ENV TERM 'xterm-256color'
 

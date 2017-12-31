@@ -8,6 +8,7 @@ IMAGE_TAG  ?= $(BASE_TAG)
 NAMESPACE  ?= yamsafer
 
 VERSIONS        ?= 7-alpine 8-alpine 9-alpine
+LATEST_VERSION  ?= 9-alpine
 DEFAULT_FLAVOUR ?= alpine
 
 build:
@@ -34,7 +35,8 @@ publish:
 			$(MAKE) BASE_TAG=$${version} IMAGE_TAG=$${default_tag} push ;\
 		fi ;\
 	done
+	$(MAKE) publish-latest
 
 publish-latest:
-	$(MAKE) BASE_TAG=$(BASE_TAG) IMAGE_TAG='latest' build ;\
-	$(MAKE) BASE_TAG=$(BASE_TAG) IMAGE_TAG='latest' push
+	$(MAKE) BASE_TAG=$(LATEST_VERSION) IMAGE_TAG='latest' build ;\
+	$(MAKE) BASE_TAG=$(LATEST_VERSION) IMAGE_TAG='latest' push

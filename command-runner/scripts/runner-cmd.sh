@@ -17,11 +17,27 @@ if [ -z "${CRON_EXEC}" ]; then
     exit 1
 fi
 
-if [ "${WRITE_ENV}" != 'false' ]; then
-    # Create environment file it also encapsulates values
-    # with singel quotes to fix sourcing the file
-    env | awk -F'=' "{ print \$1\"='\"\$2\"'\" }" | tee $ENV_FILE > /dev/null
-fi
+TMP_ENV="/tmp/env_temp_${$}"
+
+# Manage escaping empty variables
+# to ensure the ability to source
+# the ENV_FILE, the process is done
+# in two steps in order to have the
+# env variables interpolated
+env | awk -F'=' "{
+    key = \$1 ;
+    val = \$2 ;
+
+    if (key ~ /^CRON_SPEC\$/ && val !~ /^'.*'$/) val = \"'\"val\"'\" ;
+    if (val ~ /^'[^\"]*'\$/) val = \"\\\"\"val\"\\\"\" ;
+
+    print \"export \"key\"=\"val ;
+}" | tee "$TMP_ENV" > /dev/null
+
+# Source temporary file overriding the current
+# environment with interpolated version of
+# itself, then create the main environment file
+. "$TMP_ENV" && env | tee "$ENV_FILE" > /dev/null
 
 # Create main command
 MAIN_COMMAND=". ${ENV_FILE} && ${CRON_EXEC} ${EXEC_OPTS}"
