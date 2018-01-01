@@ -13,7 +13,7 @@ if [ "$(cat /etc/os-release | egrep -i 'alpine')" ]; then
 fi
 
 if [ -z "${CRON_EXEC}" ]; then
-    echo ${ALP_CLR} "${RED}No executable provided."
+    echo ${ALP_CLR} "${RED}No executable provided.${NOCOLOR}"
     exit 1
 fi
 
@@ -28,8 +28,10 @@ env | awk -F'=' "{
     key = \$1 ;
     val = \$2 ;
 
-    if (key ~ /^CRON_SPEC\$/ && val !~ /^'.*'$/) val = \"'\"val\"'\" ;
-    if (val ~ /^'[^\"]*'\$/) val = \"\\\"\"val\"\\\"\" ;
+    if (val ~ /^[^'\"].*\*.*[^'\"]$/) {
+        val = \"'\"val\"'\" ;
+        val = \"\\\"\"val\"\\\"\" ;
+    }
 
     print \"export \"key\"=\"val ;
 }" | tee "$TMP_ENV" > /dev/null
@@ -41,12 +43,15 @@ env | awk -F'=' "{
 
 # Create main command
 MAIN_COMMAND=". ${ENV_FILE} && ${CRON_EXEC} ${EXEC_OPTS}"
+if [ "${MAIN_COMMAND}" != *';' ]; then
+    MAIN_COMMAND="${MAIN_COMMAND};"
+fi
 
 if [ $(echo "$STAGE" | egrep -i 'prod(uction)?') ]; then
 
     # Capture user signals 1 & 2 use them
     # to fire the command directly
-    trap "${MAIN_COMMAND};" SIGUSR1 SIGUSR2
+    trap "${MAIN_COMMAND}" SIGUSR1 SIGUSR2
 
     echo ${ALP_CLR} "${GREEN}Production stage, running scheduler${NOCOLOR}"
     echo
@@ -58,6 +63,7 @@ if [ $(echo "$STAGE" | egrep -i 'prod(uction)?') ]; then
 else
 
     echo ${ALP_CLR} "${GREEN}Non production stage '${BLUE}${STAGE}${GREEN}', running once${NOCOLOR}"
+    echo ${ALP_CLR} "${GREEN}evaluating the command '${BLUE}${MAIN_COMMAND}${GREEN}'${NOCOLOR}"
     echo
     echo ${ALP_CLR} "${BLUE}STDOUT:${NOCOLOR}"
     echo
