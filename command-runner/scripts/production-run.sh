@@ -6,10 +6,6 @@ CRON_FILE='/var/spool/cron/crontabs/root'
 REDIRECT_STDOUT="> /proc/${$}/fd/1"
 REDIRECT_STDERR="2> /proc/${$}/fd/2"
 
-# Capture user signals 1 & 2 use them
-# to fire the command directly
-trap "( ${@} ) ${REDIRECT_STDOUT} ${REDIRECT_STDERR} ;" SIGUSR1 SIGUSR2
-
 # Specify binary of cron
 if [ $(which cron) ]; then
 

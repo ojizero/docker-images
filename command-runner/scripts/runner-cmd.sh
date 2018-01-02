@@ -51,12 +51,21 @@ fi
 
 if [ $(echo "$STAGE" | egrep -i 'prod(uction)?') ]; then
 
+    # Capture user signals 1 & 2 use them
+    # to fire the command directly
+    trap "( ${@} ) ${REDIRECT_STDOUT} ${REDIRECT_STDERR} ;" SIGUSR1 SIGUSR2
+
     echo ${ALP_CLR} "${GREEN}Production stage, running scheduler${NOCOLOR}"
     echo
     echo ${ALP_CLR} "${BLUE}STDOUT:${NOCOLOR}"
     echo
 
-    . /opt/scripts/production-run.sh "${MAIN_COMMAND}"
+    /opt/scripts/production-run.sh "${MAIN_COMMAND}" &
+
+    # Wait main process until it finishes
+    # the only working way to get `trap`
+    # to work consistently and properly
+    wait "${!}"
 
 else
 
