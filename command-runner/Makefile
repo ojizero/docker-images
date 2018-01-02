@@ -24,7 +24,7 @@ push:
 	docker push "$(NAMESPACE)/$(IMAGE_REPO):$(IMAGE_TAG)"
 
 publish:
-	for version in $(VERSIONS); do \
+	@for version in $(VERSIONS); do \
 		$(MAKE) BASE_TAG=$${version} IMAGE_TAG=$${version} build ;\
 		$(MAKE) BASE_TAG=$${version} IMAGE_TAG=$${version} push ;\
 		\
