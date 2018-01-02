@@ -24,22 +24,24 @@ TMP_ENV="/tmp/env_temp_${$}"
 # the ENV_FILE, the process is done
 # in two steps in order to have the
 # env variables interpolated
-env | awk -F'=' "{
-    key = \$1 ;
-    val = \$2 ;
+env | awk -F'=' '{
+    key = $1 ;
+    val = $2 ;
 
-    if (val ~ /^[^'\"].*\*.*[^'\"]$/ || val ~ /^[^'\"].*[[:space:]].*[^'\"]$/) {
-        val = \"'\"val\"'\" ;
-        val = \"\\\"\"val\"\\\"\" ;
-    }
+    val = gensub(/"/, "\\\"", "g", val) ;
+    val = gensub(/`/, "\\\`", "g", val) ;
 
-    print \"export \"key\"=\"val ;
-}" | tee "$TMP_ENV" > /dev/null
+    val = "\""val"\"" ;
+    print "export "key"="val ;
+}' | tee "$TMP_ENV" > /dev/null
 
 # Source temporary file overriding the current
 # environment with interpolated version of
 # itself, then create the main environment file
-. "$TMP_ENV" && env | tee "$ENV_FILE" > /dev/null
+
+. "$TMP_ENV"
+
+env | awk -F'=' "{ print \$1\"='\"\$2\"'\" }" | tee "$ENV_FILE" > /dev/null
 
 # Create main command
 MAIN_COMMAND=". ${ENV_FILE} && ${CRON_EXEC} ${EXEC_OPTS}"
