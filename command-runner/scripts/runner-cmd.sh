@@ -53,7 +53,7 @@ if [ $(echo "$STAGE" | egrep -i 'prod(uction)?') ]; then
 
     # Capture user signals 1 & 2 use them
     # to fire the command directly
-    trap "( ${@} ) ${REDIRECT_STDOUT} ${REDIRECT_STDERR} ;" SIGUSR1 SIGUSR2
+    trap "${MAIN_COMMAND} ;" SIGUSR1 SIGUSR2
 
     echo ${ALP_CLR} "${GREEN}Production stage, running scheduler${NOCOLOR}"
     echo
