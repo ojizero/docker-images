@@ -28,8 +28,10 @@ env | awk -F'=' '{
     key = $1 ;
     val = $2 ;
 
+    for (i=3; i<=NF; i++) val = val"="$i ;
+
     val = gensub(/"/, "\\\"", "g", val) ;
-    val = gensub(/`/, "\\\`", "g", val) ;
+    val = gensub(/`/, "\\`", "g", val) ;
 
     val = "\""val"\"" ;
     print "export "key"="val ;
@@ -51,21 +53,12 @@ fi
 
 if [ $(echo "$STAGE" | egrep -i 'prod(uction)?') ]; then
 
-    # Capture user signals 1 & 2 use them
-    # to fire the command directly
-    trap "${MAIN_COMMAND} ;" SIGUSR1 SIGUSR2
-
     echo ${ALP_CLR} "${GREEN}Production stage, running scheduler${NOCOLOR}"
     echo
     echo ${ALP_CLR} "${BLUE}STDOUT:${NOCOLOR}"
     echo
 
-    /opt/scripts/production-run.sh "${MAIN_COMMAND}" &
-
-    # Wait main process until it finishes
-    # the only working way to get `trap`
-    # to work consistently and properly
-    wait "${!}"
+    /opt/scripts/production-run.sh "${MAIN_COMMAND}"
 
 else
 
