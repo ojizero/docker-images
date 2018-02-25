@@ -3,7 +3,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 RUNNER   ?= node
 BASE_TAG ?= latest
 
-IMAGE_REPO ?= $(RUNNER)-runner
+IMAGE_REPO ?= $(shell basename $(RUNNER))-runner
 IMAGE_TAG  ?= $(BASE_TAG)
 NAMESPACE  ?= yamsafer
 
