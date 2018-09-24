@@ -51,6 +51,9 @@ if [ "${MAIN_COMMAND}" != *';' ]; then
     MAIN_COMMAND="${MAIN_COMMAND};"
 fi
 
+/opt/scripts/hooks-runner.sh ONSTART 1>&1 2>&2
+echo
+
 if [ $(echo "$STAGE" | egrep -i 'prod(uction)?') ]; then
 
     echo ${ALP_CLR} "${GREEN}Production stage, running scheduler${NOCOLOR}"
@@ -79,3 +82,6 @@ else
     exit ${STATUS}
 
 fi
+
+/opt/scripts/hooks-runner.sh CLEANUP 1>&1 2>&2
+echo

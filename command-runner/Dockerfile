@@ -15,6 +15,9 @@ ENV CRON_SPEC '* * * * *'
 ENV CRON_EXEC ''
 ENV EXEC_OPTS ''
 
+ENV ONSTART ''
+ENV CLEANUP ''
+
 ENV ENV_FILE  '${APP_DIR}/.env'
 
 ENV TERM 'xterm-256color'
