@@ -43,7 +43,14 @@ env | awk -F'=' '{
 
 . "$TMP_ENV"
 
-env | awk -F'=' "{ print \$1\"='\"\$2\"'\" }" | tee "$ENV_FILE" > /dev/null
+env | awk -F'=' "{
+    key = \$1 ;
+    val = \$2 ;
+
+    for (i=3; i<=NF; i++) val = val\"=\"\$i ;
+
+    print key\"='\"val\"'\" ;
+}" | tee "$ENV_FILE" > /dev/null
 
 # Create main command
 MAIN_COMMAND=". ${ENV_FILE} && ${CRON_EXEC} ${EXEC_OPTS}"
