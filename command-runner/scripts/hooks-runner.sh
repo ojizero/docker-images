@@ -20,7 +20,7 @@ shift
 # TODO: handle '*'
 eval "hook=\"\$${hook_name}\""
 
-if [[ ! -z "${hook}" ]]; then
+if [ ! -z "${hook}" ]; then
   echo ${ALP_CLR} "${GREEN}Running ${hook_name} hook ...${NOCOLOR}"
 
   sh -c "${hook}" || ( echo ${ALP_CLR} "${RED}Hook ${hook_name} failed${NOCOLOR}" >&2 && exit 1 )
