@@ -18,6 +18,7 @@ if [ -z "${CRON_EXEC}" ]; then
 fi
 
 TMP_ENV="/tmp/env_temp_${$}"
+EXPORTED_ENV='/etc/dotenv'
 
 # Manage escaping empty variables
 # to ensure the ability to source
@@ -52,8 +53,16 @@ env | awk -F'=' "{
     print key\"='\"val\"'\" ;
 }" | tee "$ENV_FILE" > /dev/null
 
+# This is the same as the dotenv file the only
+# difference is the use of export here, this
+# is to source this file before running
+# the command while having the dotenv
+# be used if it is read by a
+# dotenv package
+cat $ENV_FILE | awk '{ print "export "$0 }' | tee "$EXPORTED_ENV" > /dev/null
+
 # Create main command
-MAIN_COMMAND=". ${ENV_FILE} && ${CRON_EXEC} ${EXEC_OPTS}"
+MAIN_COMMAND=". ${EXPORTED_ENV} && ${CRON_EXEC} ${EXEC_OPTS}"
 if [ "${MAIN_COMMAND}" != *';' ]; then
     MAIN_COMMAND="${MAIN_COMMAND};"
 fi
