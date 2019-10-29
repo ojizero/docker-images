@@ -7,10 +7,14 @@ FROM ${RUNNER}:${TAG}
 
 LABEL maintainer='Ameer A. <ameer.a@yamsafer.me>'
 
+USER root
+
 ENV STAGE    'development'
 ENV NODE_ENV ${STAGE}
 
-ENV APP_DIR   '/opt/app'
+ENV APP_DIR  '/opt/app'
+ENV APP_USER 'root'
+
 ENV CRON_SPEC '* * * * *'
 ENV CRON_EXEC ''
 ENV EXEC_OPTS ''
@@ -27,5 +31,8 @@ WORKDIR /opt/scripts
 ADD scripts .
 RUN chmod +x *
 RUN ./cron-installer.sh
+
+USER ${APP_USER}
+WORKDIR ${APP_DIR}
 
 CMD [ "/opt/scripts/runner-cmd.sh" ]

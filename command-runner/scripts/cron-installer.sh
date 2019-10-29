@@ -17,7 +17,7 @@ if [ $(which apt-get) ]; then
     INSTALL_COMMAND='install'
     INSTALL_OPTS='-y'
 
-    PACKAGES='cron'
+    PACKAGES='cron gawk'
 elif [ $(which apk) ]; then
     PACKAGE_MANAGER='apk'
 
@@ -27,7 +27,7 @@ elif [ $(which apk) ]; then
     INSTALL_COMMAND='add'
     INSTALL_OPTS=''
 
-    PACKAGES='dcron'
+    PACKAGES='dcron gawk'
 
     ALP_CLR='-e'
 else
